@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
-const request = require("request");
-const config = require("./config/config");
-const async = require("async");
-const fs = require("fs");
+const request = require('request');
+const config = require('./config/config');
+const async = require('async');
+const fs = require('fs');
 
 let Logger;
 let requestWithDefaults;
@@ -22,27 +22,27 @@ function startup(logger) {
 
   const { cert, key, passphrase, ca, proxy, rejectUnauthorized } = config.request;
 
-  if (typeof cert === "string" && cert.length > 0) {
+  if (typeof cert === 'string' && cert.length > 0) {
     defaults.cert = fs.readFileSync(cert);
   }
 
-  if (typeof key === "string" && key.length > 0) {
+  if (typeof key === 'string' && key.length > 0) {
     defaults.key = fs.readFileSync(key);
   }
 
-  if (typeof passphrase === "string" && passphrase.length > 0) {
+  if (typeof passphrase === 'string' && passphrase.length > 0) {
     defaults.passphrase = passphrase;
   }
 
-  if (typeof ca === "string" && ca.length > 0) {
+  if (typeof ca === 'string' && ca.length > 0) {
     defaults.ca = fs.readFileSync(ca);
   }
 
-  if (typeof proxy === "string" && proxy.length > 0) {
+  if (typeof proxy === 'string' && proxy.length > 0) {
     defaults.proxy = proxy;
   }
 
-  if (typeof rejectUnauthorized === "boolean") {
+  if (typeof rejectUnauthorized === 'boolean') {
     defaults.rejectUnauthorized = rejectUnauthorized;
   }
 
@@ -55,30 +55,27 @@ function doLookup(entities, options, cb) {
 
   Logger.debug(entities);
 
-  entities.forEach(entity => {
+  entities.forEach((entity) => {
     let requestOptions = {
       method: 'POST',
       uri: `${options.url}/?api`,
       form: {
-          "apikey": options.apiKey,
-          "search": entity.value
+        apikey: options.apiKey,
+        search: entity.value
       },
       json: true
     };
 
-    Logger.trace({ uri: requestOptions }, "Request URI");
+    Logger.trace({ uri: requestOptions }, 'Request URI');
 
-    tasks.push(function (done) {
-      requestWithDefaults(requestOptions, function (error, res, body) {
+    tasks.push(function(done) {
+      requestWithDefaults(requestOptions, function(error, res, body) {
         if (error) {
           return done(error);
         }
 
         Logger.trace(requestOptions);
-        Logger.trace(
-          { body, statusCode: res ? res.statusCode : "N/A" },
-          "Result of Lookup"
-        );
+        Logger.trace({ body, statusCode: res ? res.statusCode : 'N/A' }, 'Result of Lookup');
 
         let result = {};
 
@@ -139,12 +136,12 @@ function doLookup(entities, options, cb) {
 
   async.parallelLimit(tasks, MAX_PARALLEL_LOOKUPS, (err, results) => {
     if (err) {
-      Logger.error({ err: err }, "Error");
+      Logger.error({ err: err }, 'Error');
       cb(err);
       return;
     }
 
-    results.forEach(result => {
+    results.forEach((result) => {
       if (result.body === null || !result.body.response.items || result.body.response.items === 0) {
         lookupResults.push({
           entity: result.entity,
@@ -161,16 +158,15 @@ function doLookup(entities, options, cb) {
       }
     });
 
-    Logger.debug({ lookupResults }, "Results");
+    Logger.debug({ lookupResults }, 'Results');
     cb(null, lookupResults);
   });
 }
 
 function validateStringOption(errors, options, optionName, errMessage) {
   if (
-    typeof options[optionName].value !== "string" ||
-    (typeof options[optionName].value === "string" &&
-      options[optionName].value.length === 0)
+    typeof options[optionName].value !== 'string' ||
+    (typeof options[optionName].value === 'string' && options[optionName].value.length === 0)
   ) {
     errors.push({
       key: optionName,
@@ -182,18 +178,8 @@ function validateStringOption(errors, options, optionName, errMessage) {
 function validateOptions(options, callback) {
   let errors = [];
 
-  validateStringOption(
-    errors,
-    options,
-    "url",
-    "You must provide a valid URL"
-  );
-  validateStringOption(
-    errors,
-    options,
-    "apiKey",
-    "You must provide a valid API Key"
-  );
+  validateStringOption(errors, options, 'url', 'You must provide a valid URL');
+  validateStringOption(errors, options, 'apiKey', 'You must provide a valid API Key');
 
   callback(null, errors);
 }

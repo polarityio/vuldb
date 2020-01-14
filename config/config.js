@@ -22,18 +22,17 @@ module.exports = {
    * @type String
    * @optional
    */
-  description:
-    'The Community Driven Vulnerability Database',
+  description: 'The Community Driven Vulnerability Database',
   customTypes: [
-  {
-    key: 'kb',
-    regex: /KB[0-9]{7}/
-  },
-  {
-    key: 'cve',
-    regex: /CVE-\d{4}-\d{4,7}/
-  }
-],
+    {
+      key: 'kb',
+      regex: /KB[0-9]{7}/
+    },
+    {
+      key: 'cve',
+      regex: /CVE-\d{4}-\d{4,7}/
+    }
+  ],
   /**
    * Provide custom component logic and template for rendering the integration details block.  If you do not
    * provide a custom template and/or component then the integration will display data as a table of key value

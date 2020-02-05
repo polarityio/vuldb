@@ -1,27 +1,24 @@
 {{#if (eq block.entity.subtype "custom.kb")}}
   <div class="p-link">
-    <a href="https://www.catalog.update.microsoft.com/Search.aspx?q={{block.entity.value}}">Pivot to Microsoft Update Catalog {{fa-icon "external-link-square" class="external-icon" fixedWidth=true}}</a>
+    <a href="https://www.catalog.update.microsoft.com/Search.aspx?q={{block.entity.value}}">Pivot to Microsoft Update Catalog {{fa-icon "external-link-square" class="external-link-icon" fixedWidth=true}}</a>
   </div>
 {{/if}}
 {{#if (eq block.entity.subtype "custom.cve")}}
   <div class="p-link">
-    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{block.entity.value}}">Pivot to MITRE CVE Search {{fa-icon "external-link-square" class="external-icon" fixedWidth=true}}</a>
+    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{block.entity.value}}">Pivot to MITRE CVE Search {{fa-icon "external-link-square" class="external-link-icon" fixedWidth=true}}</a>
   </div>
 {{/if}}
 {{#if details.result}}
   {{#each details.result as |result index|}}
-    <div class="p-link">
-      <a href="{{block.userOptions.url}}?id.{{result.entry.id}}">Pivot to VulDB {{fa-icon "external-link-square" class="external-icon" fixedWidth=true}}</a>
-    </div>
-    <h1 class="p-title">
-        {{fa-icon "eye" fixedWidth=true}}  Result Details
-    </h1>
-    {{#if result.entry.title}}
-      <div>
-        <span class="p-key">Vulnerability Title:</span>
-        <span class="p-value">{{result.entry.title}}</span>
-      </div>
+    {{#if (gt index 0)}}
+      <hr>
     {{/if}}
+    <h1 class="p-title">
+        {{result.entry.title}}
+    </h1>
+    <div class="p-link">
+      <a href="{{block.userOptions.url}}?id.{{result.entry.id}}">Pivot to VulDB {{fa-icon "external-link-square" class="external-link-icon" fixedWidth=true}}</a>
+    </div>
     {{#if result.entry.timestamp.create}}
       <div>
         <span class="p-key">Entry Created:</span>

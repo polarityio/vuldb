@@ -1,0 +1,61 @@
+{{#if (eq block.entity.subtype "custom.kb")}}
+  <div class="p-link">
+    <a href="https://www.catalog.update.microsoft.com/Search.aspx?q={{block.entity.value}}">Pivot to Microsoft Update Catalog {{fa-icon "external-link-square" class="external-link-icon" fixedWidth=true}}</a>
+  </div>
+{{/if}}
+{{#if (eq block.entity.subtype "custom.cve")}}
+  <div class="p-link">
+    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{block.entity.value}}">Pivot to MITRE CVE Search {{fa-icon "external-link-square" class="external-link-icon" fixedWidth=true}}</a>
+  </div>
+{{/if}}
+{{#if details.result}}
+  {{#each details.result as |result index|}}
+    {{#if (gt index 0)}}
+      <hr>
+    {{/if}}
+    <h1 class="p-title">
+        {{result.entry.title}}
+    </h1>
+    <div class="p-link">
+      <a href="{{block.userOptions.url}}?id.{{result.entry.id}}">Pivot to VulDB {{fa-icon "external-link-square" class="external-link-icon" fixedWidth=true}}</a>
+    </div>
+    {{#if result.entry.timestamp.create}}
+      <div>
+        <span class="p-key">Entry Created:</span>
+        <span class="p-value">{{moment-format (unix result.entry.timestamp.create) "YYYY-MM-DD HH:mm:ss z" timeZone=timezone}}<br></span>
+      </div>
+    {{/if}}
+    {{#if result.entry.timestamp.change}}
+      <div>
+        <span class="p-key">Entry Last Changed:</span>
+        <span class="p-value">{{moment-format (unix result.entry.timestamp.change) "YYYY-MM-DD HH:mm:ss z" timeZone=timezone}}<br></span>
+      </div>
+    {{/if}}
+    {{#if result.vulnerability.risk.name}}
+      {{#if (eq result.vulnerability.risk.name "high")}}
+        <div>
+          <span class="p-key">Vulnerability Risk:</span>
+          <span class="p-value" style="color:red">HIGH</span>
+        </div>
+      {{/if}}
+      {{#if (eq result.vulnerability.risk.name "medium")}}
+        <div>
+          <span class="p-key">Vulnerability Risk:</span>
+          <span class="p-value" style="color:orange">MEDIUM</span>
+        </div>
+      {{/if}}
+    {{/if}}
+    {{#if result.advisory.date}}
+      <div>
+        <span class="p-key">Advisory Date:</span>
+        <span class="p-value">{{moment-format (unix result.advisory.date) "YYYY-MM-DD HH:mm:ss z" timeZone=timezone}}<br></span>
+      </div>
+    {{/if}}
+    {{#if result.source.cve.id}}
+      <div>
+        <span class="p-key">CVE ID:</span>
+        <span class="p-value">{{result.source.cve.id}}</span>
+      </div>
+    {{/if}}
+  {{/each}}
+{{/if}}

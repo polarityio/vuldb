@@ -69,60 +69,64 @@ function doLookup(entities, options, cb) {
     Logger.trace({ uri: requestOptions }, 'Request URI');
 
     tasks.push(function(done) {
-      requestWithDefaults(requestOptions, function(error, res, body) {
-        if (error) {
-          return done(error);
+      requestWithDefaults(requestOptions, function(httpError, res, body) {
+        if (httpError) {
+          return done({
+            detail: 'HTTP Request Error',
+            error: httpError
+          });
         }
-
-        Logger.trace(requestOptions);
-        Logger.trace({ body, statusCode: res ? res.statusCode : 'N/A' }, 'Result of Lookup');
 
         let result = {};
 
-        if (res.statusCode === 200) {
+        // The VulDB API is unique in that the HTTP status code returned by the server is always 200.  Instead
+        // There is a custom status code attached to the `body.response.status` property (which in theory should
+        // always be there except when the HTTP status Code is not 200
+        let statusCode = 500;
+        if (body && body.response && body.response.status) {
+          // the status code is a string so we convert to an integer
+          statusCode = +body.response.status;
+        }
+
+        Logger.trace(requestOptions);
+        Logger.trace({ body, statusCode }, 'Result of Lookup');
+
+        if (statusCode === 200) {
           result = {
             entity,
             body
           };
-        } else if (res.statusCode === 404 || res.statusCode === 202 || res.statusCode === 204) {
+        } else if (statusCode === 404 || statusCode === 202 || statusCode === 204) {
           result = {
             entity,
             body: null
           };
         } else {
           let error = {
-            err: body,
-            detail: `${body.error}: ${body.message}`
+            err: 'Unknown Error',
+            body,
+            detail: 'Integration encountered an unexpected response'
           };
-          if (res.statusCode === 401) {
+          if (statusCode === 401) {
             error = {
               err: 'Unauthorized',
               detail: 'Authentication required, API key missing or unrecognized'
             };
-          } else if (res.statusCode === 403) {
+          } else if (statusCode === 403) {
             error = {
               err: 'API rate exceeded',
               detail: 'API rate exceeded, no further requests allowed until counter reset'
             };
-          } else if (res.statusCode === 404) {
-            error = {
-              err: 'Not Found',
-              detail: 'Requested item doesn’t exist or not enough access permissions'
-            };
-          } else if (res.statusCode === 405) {
+          } else if (statusCode === 405) {
             error = {
               err: 'Unknown request type',
               detail: 'Unknown request type'
             };
-          } else if (res.statusCode === 204) {
-            error = {
-              err: 'No results',
-              detail: 'Request correct, allowed, processed but no results returned because they are empty'
-            };
-          } else if (Math.round(res.statusCode / 10) * 10 === 500) {
+          } else if (Math.round(statusCode / 10) * 10 === 500) {
             error = {
               err: 'Server Error',
-              detail: 'Unexpected Server Error'
+              detail: 'Unexpected Server Error',
+              body
             };
           }
 
@@ -142,7 +146,12 @@ function doLookup(entities, options, cb) {
     }
 
     results.forEach((result) => {
-      if (result.body === null || !result.body.response.items || result.body.response.items === 0) {
+      if (
+        result.body === null ||
+        (result.body && Array.isArray(result.body.result) && result.body.result.length === 0)
+      ) {
+        // body.result is an array of result items.  If it is empty or does not exist then there are no results
+        // for this lookup
         lookupResults.push({
           entity: result.entity,
           data: null

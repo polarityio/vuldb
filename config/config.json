@@ -1,0 +1,66 @@
+{
+  "name": "VulDB",
+  "acronym": "VULDB",
+  "description": "The Community Driven Vulnerability Database",
+  "customTypes": [
+    {
+      "key": "kb",
+      "regex": "KB\\s?[0-9]{7}"
+    },
+    {
+      "key": "cve",
+      "regex": "CVE-\\d{4}-\\d{4,7}"
+    }
+  ],
+  "styles": [
+    "./styles/styles.less"
+  ],
+  "block": {
+    "component": {
+      "file": "./components/block.js"
+    },
+    "template": {
+      "file": "./templates/block.hbs"
+    }
+  },
+  "summary": {
+    "component": {
+      "file": "./components/summary.js"
+    },
+    "template": {
+      "file": "./templates/summary.hbs"
+    }
+  },
+  "request": {
+    "cert": "",
+    "key": "",
+    "passphrase": "",
+    "ca": "",
+    "proxy": "",
+    "rejectUnauthorized": true
+  },
+  "logging": {
+    "level": "info"
+  },
+  "options": [
+    {
+      "key": "url",
+      "name": "VulDB API URL",
+      "description": "The base URL for the VulDB API including the schema (i.e., https://)",
+      "type": "text",
+      "default": "https://vuldb.com",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "apiKey",
+      "name": "API Key",
+      "description": "Valid VulDB API Key.",
+      "default": "",
+      "type": "password",
+      "userCanEdit": true,
+      "adminOnly": false
+    }
+  ],
+  "entityTypes": []
+}

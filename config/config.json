@@ -12,9 +12,8 @@
       "regex": "CVE-\\d{4}-\\d{4,7}"
     }
   ],
-  "styles": [
-    "./styles/styles.less"
-  ],
+  "defaultColor": "light-pink",
+  "styles": ["./styles/styles.less"],
   "block": {
     "component": {
       "file": "./components/block.js"

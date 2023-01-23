@@ -33,6 +33,7 @@ module.exports = {
       regex: /CVE-\d{4}-\d{4,7}/
     }
   ],
+  defaultColor: 'light-pink',
   styles: ['./styles/styles.less'],
   /**
    * Provide custom component logic and template for rendering the integration details block.  If you do not

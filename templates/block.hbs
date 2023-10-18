@@ -1,9 +1,9 @@
-{{#if (eq block.entity.subtype "custom.kb")}}
+{{#if isKbEntity}}
   <div class="p-link">
     <a href="https://www.catalog.update.microsoft.com/Search.aspx?q={{block.entity.value}}">Pivot to Microsoft Update Catalog {{fa-icon "external-link-square" class="external-link-icon" fixedWidth=true}}</a>
   </div>
 {{/if}}
-{{#if (eq block.entity.subtype "custom.cve")}}
+{{#if isCveEntity}}
   <div class="p-link">
     <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{block.entity.value}}">Pivot to MITRE CVE Search {{fa-icon "external-link-square" class="external-link-icon" fixedWidth=true}}</a>
   </div>

@@ -60,16 +60,21 @@ function doLookup(entities, options, cb) {
       method: 'POST',
       uri: `${options.url}/?api`,
       form: {
-        apikey: options.apiKey,
-        search: entity.value
+        apikey: options.apiKey
       },
       json: true
     };
 
+    if (entity.types.includes('cve')) {
+      requestOptions.form.advancedsearch = `cve:${entity.value}`;
+    } else {
+      requestOptions.form.search = entity.value;
+    }
+
     Logger.trace({ uri: requestOptions }, 'Request URI');
 
-    tasks.push(function(done) {
-      requestWithDefaults(requestOptions, function(httpError, res, body) {
+    tasks.push(function (done) {
+      requestWithDefaults(requestOptions, function (httpError, res, body) {
         if (httpError) {
           return done({
             detail: 'HTTP Request Error',
@@ -148,6 +153,7 @@ function doLookup(entities, options, cb) {
     results.forEach((result) => {
       if (
         result.body === null ||
+        !result.body.result ||
         (result.body && Array.isArray(result.body.result) && result.body.result.length === 0)
       ) {
         // body.result is an array of result items.  If it is empty or does not exist then there are no results
@@ -160,7 +166,7 @@ function doLookup(entities, options, cb) {
         lookupResults.push({
           entity: result.entity,
           data: {
-            summary: [],
+            summary: [`Results: ${result.body.result.length}`],
             details: result.body
           }
         });

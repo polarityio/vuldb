@@ -3,18 +3,19 @@
   "name": "VulDB",
   "acronym": "VULDB",
   "description": "The Community Driven Vulnerability Database",
+  "entityTypes": [
+    "cve"
+  ],
   "customTypes": [
     {
       "key": "kb",
       "regex": "KB\\s?[0-9]{7}"
-    },
-    {
-      "key": "cve",
-      "regex": "CVE-\\d{4}-\\d{4,7}"
     }
   ],
   "defaultColor": "light-pink",
-  "styles": ["./styles/styles.less"],
+  "styles": [
+    "./styles/styles.less"
+  ],
   "block": {
     "component": {
       "file": "./components/block.js"
@@ -57,9 +58,8 @@
       "description": "Valid VulDB API Key.",
       "default": "",
       "type": "password",
-      "userCanEdit": true,
-      "adminOnly": false
+      "userCanEdit": false,
+      "adminOnly": true
     }
-  ],
-  "entityTypes": []
+  ]
 }

@@ -3,13 +3,10 @@ polarity.export = PolarityComponent.extend({
   timezone: Ember.computed('Intl', function () {
     return Intl.DateTimeFormat().resolvedOptions().timeZone;
   }),
-  isKbEntity: false,
-  isCveEntity: false,
-  init() {
-    if (this.get('block.entity.type') === 'custom') {
-      if (this.get('block.entity.types').includes('custom.kb')) this.set('isKbEntity', true);
-      if (this.get('block.entity.types').includes('custom.cve')) this.set('isCveEntity', true);
-    }
-    this._super(...arguments);
-  }
+  isKbEntity: Ember.computed('block.entity.types.[]', function () {
+    return this.get('block.entity.types').includes('custom.kb');
+  }),
+  isCveEntity: Ember.computed('block.entity.types.[]', function () {
+    return this.get('block.entity.types').includes('cve');
+  })
 });

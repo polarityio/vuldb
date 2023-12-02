@@ -23,14 +23,11 @@ module.exports = {
    * @optional
    */
   description: 'The Community Driven Vulnerability Database',
+  entityTypes: ['cve'],
   customTypes: [
     {
       key: 'kb',
       regex: /KB\s?[0-9]{7}/
-    },
-    {
-      key: 'cve',
-      regex: /CVE-\d{4}-\d{4,7}/
     }
   ],
   defaultColor: 'light-pink',
@@ -51,14 +48,6 @@ module.exports = {
       file: './templates/block.hbs'
     }
   },
-  summary: {
-    component: {
-      file: './components/summary.js'
-    },
-    template: {
-      file: './templates/summary.hbs'
-    }
-  },
   request: {
     // Provide the path to your certFile. Leave an empty string to ignore this option.
     // Relative paths are relative to the integration's root directory
@@ -74,7 +63,7 @@ module.exports = {
     ca: '',
     // An HTTP proxy to be used. Supports proxy Auth with Basic Auth, identical to support for
     // the url parameter (by embedding the auth info in the uri)
-    proxy: ""
+    proxy: ''
   },
   logging: {
     level: 'info' //trace, debug, info, warn, error, fatal
@@ -102,8 +91,8 @@ module.exports = {
       description: 'Valid VulDB API Key.',
       default: '',
       type: 'password',
-      userCanEdit: true,
-      adminOnly: false
+      userCanEdit: false,
+      adminOnly: true
     }
   ]
 };

@@ -1,0 +1,129 @@
+{
+  "response": {
+    "status": "200",
+    "timestamp": 1704067200,
+    "credits": {
+      "remaining": 45
+    }
+  },
+  "request": {
+    "type": "search",
+    "query": "CVE-2024-1234",
+    "apikey": "***REDACTED***"
+  },
+  "result": [
+    {
+      "entry": {
+        "id": 234567,
+        "title": "Microsoft Windows Remote Code Execution Vulnerability",
+        "timestamp": {
+          "create": 1704067200,
+          "change": 1704153600
+        }
+      },
+      "vulnerability": {
+        "risk": {
+          "name": "high",
+          "value": 8
+        },
+        "cvss": {
+          "version": "3.1",
+          "score": 8.8,
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+        }
+      },
+      "advisory": {
+        "date": 1704067200,
+        "title": "Microsoft Security Advisory"
+      },
+      "source": {
+        "cve": {
+          "id": "CVE-2024-1234"
+        },
+        "misc": [
+          {
+            "name": "Microsoft Security Bulletin",
+            "id": "MS24-001"
+          }
+        ]
+      },
+      "product": {
+        "name": "Windows Server 2019",
+        "vendor": "Microsoft"
+      },
+      "affected": {
+        "version": "10.0.17763.0"
+      }
+    },
+    {
+      "entry": {
+        "id": 234568,
+        "title": "Windows Privilege Escalation via DLL Injection",
+        "timestamp": {
+          "create": 1703980800,
+          "change": 1704153600
+        }
+      },
+      "vulnerability": {
+        "risk": {
+          "name": "medium",
+          "value": 6
+        },
+        "cvss": {
+          "version": "3.1",
+          "score": 6.5,
+          "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+        }
+      },
+      "advisory": {
+        "date": 1703980800
+      },
+      "source": {
+        "cve": {
+          "id": "CVE-2024-5678"
+        }
+      },
+      "product": {
+        "name": "Windows 10",
+        "vendor": "Microsoft"
+      },
+      "exploit": {
+        "availability": "public",
+        "technique": "dll_injection"
+      }
+    },
+    {
+      "entry": {
+        "id": 234569,
+        "title": "Apache HTTP Server Buffer Overflow",
+        "timestamp": {
+          "create": 1703894400
+        }
+      },
+      "vulnerability": {
+        "risk": {
+          "name": "high",
+          "value": 9
+        },
+        "cvss": {
+          "version": "3.1",
+          "score": 9.8,
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        }
+      },
+      "advisory": {
+        "date": 1703894400
+      },
+      "source": {
+        "cve": {
+          "id": "CVE-2024-9012"
+        }
+      },
+      "product": {
+        "name": "Apache HTTP Server",
+        "version": "2.4.49",
+        "vendor": "Apache"
+      }
+    }
+  ]
+}
